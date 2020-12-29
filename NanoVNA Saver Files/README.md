@@ -34,15 +34,15 @@ I think efficiency is worse the more L and C you need to match the load.  So sma
 
 ## Conclusion Goals
 Given all the above, the goal is to:
-1. Use the NanoVNA to analyze the antenna in three different configurations:
+* Use the NanoVNA to analyze the antenna in three different configurations:
   * Single Loop
   * Parallel Loops
   * Series Loops
-1. Calculate the matching network required to match each configuration to a 50+j0 load on each of the ham bands.
-1. Verify my tuner can handle it: L > 12700nH, C > 1270pF
-1. Idenfity which configuration has lower L and C values.
+* Calculate the matching network required to match each configuration to a 50+j0 load on each of the ham bands.
+* Verify my tuner can handle it: L > 12700nH, C > 1270pF
+* Idenfity which configuration has lower L and C values.
   * TODO: What to do if one config has a better L but the other has a better C?  Might have to break out some actual math.
-1. Is one configuration a clear winner for all bands?  Or is the "best" configuration different for each band?
+* Is one configuration a clear winner for all bands?  Or is the "best" configuration different for each band?
   * If different, calculate the worst case efficiency for each configuration.  Then it's a judgement call whether that efficiency loss is worth the added switching complexity.
 
 73 de KR6ZY
