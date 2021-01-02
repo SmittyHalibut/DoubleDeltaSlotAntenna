@@ -1,3 +1,54 @@
+# Update 2021-01-01:
+Added a lot more to `make_matching_network.py`:
+* Calculates the idea matching network.
+* Rounds those values to the nearest 10pF and 100nH, the resolution of the RT-600 remote tuner.
+* Calculates the actual impedance and SWR seen by the radio with that antenna impedance and actual matching network.
+
+All my `.s1p` files, and the script, are here if you want to work on this yourself.  I'll save you the work, here's the data:
+## Parallel loops
+```
+--------Measurements:--------   -----Ideal Matching Network:----   -Actual Matching Network:-   ---------Actual Impedance:--------
+--Freq:--  ---R:--  ----X:---   ----C:---  ----L:----  ----C:---   ---C:--  ---L:---  ---C:--   ---R:---  ----X:---  --|Z|-  -SWR-
+  3.75MHz   103.19     +2.17j               2189.69nH   432.84pf              2200nH    430pf      50.35     +0.23j    50.3   1.01
+  7.15MHz    90.38    -29.28j               1111.44nH   150.38pf              1100nH    150pf      50.09     -0.51j    50.1   1.00
+ 10.12MHz    71.42    -42.60j                761.03nH    60.30pf               800nH     60pf      50.09     +2.48j    50.2   1.00
+ 14.17MHz    39.73    -44.18j    114.19pf    723.10nH                110pf     700nH               48.01     -0.66j    48.0   1.04
+ 18.11MHz     8.42     +7.23j    390.71pf    100.90nH                390pf     100nH               49.54     +0.59j    49.5   1.01
+ 21.20MHz    67.07    -39.50j                337.10nH    25.70pf               300nH     30pf      47.48     -5.14j    47.8   1.05
+ 24.94MHz    18.35    -31.20j    167.62pf    352.89nH                170pf     400nH               69.25    -14.68j    70.8   1.42
+ 28.50MHz     5.14     -0.04j    329.91pf     85.05nH                330pf     100nH               53.89    -26.80j    60.2   1.20
+```
+## Series loops
+```
+--------Measurements:--------   -----Ideal Matching Network:----   -Actual Matching Network:-   ---------Actual Impedance:--------
+--Freq:--  ---R:--  ----X:---   ----C:---  ----L:----  ----C:---   ---C:--  ---L:---  ---C:--   ---R:---  ----X:---  --|Z|-  -SWR-
+  3.75MHz   100.28    -12.61j               2161.38nH   371.94pf              2200nH    370pf      50.23     +0.91j    50.2   1.00
+  7.15MHz    83.44    -35.79j               1099.39nH   125.93pf              1100nH    130pf      49.10     +0.02j    49.1   1.02
+ 10.12MHz    96.50    -17.47j                783.72nH   128.70pf               800nH    130pf      49.59     +1.04j    49.6   1.01
+ 14.17MHz    56.30    -46.16j                527.68nH    14.29pf               500nH     10pf      51.83     -2.31j    51.9   1.04
+ 18.11MHz    28.05    -39.11j    155.51pf    561.77nH                160pf     600nH               58.34     -1.33j    58.4   1.17
+ 21.20MHz    45.04    -41.22j     49.80pf    421.65nH                 50pf     400nH               48.13     -2.59j    48.2   1.04
+ 24.94MHz     9.61    -20.73j    261.72pf    257.99nH                260pf     300nH               60.72    -35.53j    70.4   1.41
+ 28.50MHz    24.14    -35.02j    115.58pf    335.09nH                120pf     300nH               38.51     -2.14j    38.6   1.30
+```
+## Single loop
+```
+--------Measurements:--------   -----Ideal Matching Network:----   -Actual Matching Network:-   ---------Actual Impedance:--------
+--Freq:--  ---R:--  ----X:---   ----C:---  ----L:----  ----C:---   ---C:--  ---L:---  ---C:--   ---R:---  ----X:---  --|Z|-  -SWR-
+  3.75MHz   102.22     -5.33j               2174.38nH   402.69pf              2200nH    400pf      50.33     +0.60j    50.3   1.01
+  7.15MHz    90.85    -28.85j               1113.05nH   151.91pf              1100nH    150pf      50.43     -0.58j    50.4   1.01
+ 10.12MHz    76.20    -40.49j                768.16nH    71.71pf               800nH     70pf      50.53     +2.04j    50.6   1.01
+ 14.17MHz    52.49    -46.32j                522.98nH     5.88pf               500nH     10pf      48.32     -2.14j    48.4   1.03
+ 18.11MHz    21.28    -32.97j    204.21pf    506.98nH                200pf     500nH               48.15     +1.35j    48.2   1.04
+ 21.20MHz    53.06    -42.70j                324.74nH     5.19pf               300nH     10pf      47.29     -3.60j    47.4   1.05
+ 24.94MHz    18.40    -32.56j    167.23pf    361.67nH                170pf     400nH               65.87    -10.99j    66.8   1.34
+ 28.50MHz     6.32    -14.32j    293.63pf    172.76nH                290pf     200nH               52.15    -37.71j    64.4   1.29
+```
+## Analysis: What the...
+What the Heck?  Why are those numbers so dang close?  I'd expect the complex impedance of a single loop Z, when in parallel to be Z/2, and when in series to be 2Z.  But that's not what we're seeing.  My MATH is right, the source R+jX values are awfully close.  So either my understanding of antennas in parallel/series is wrong, or my measurements of the antenna is wrong.
+
+More later. 73 de KR6ZY
+
 # Update 2020-12-28:
 So, apparently, I've been suckered into presenting this data and analysis at [BayCon 2021](http://www.bay-net.org/baycon-radio-conference.html) by George, KJ6VU.  Which means I need to actually do something useful with this data.  So, here goes.
 

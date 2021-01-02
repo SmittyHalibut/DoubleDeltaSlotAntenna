@@ -1,5 +1,5 @@
 #!/usr/bin/python3.7
-from math import sqrt, floor, log10
+from math import sqrt, floor, log10, pi
 import skrf as rf
 import sys
 
@@ -8,8 +8,36 @@ def lclp(rs, xs, rl, xl, f):
     # Same as cllp, but with source and load reversed
     return cllp(rl, xl, rs, xs, f)
 
+def cl_reverse(rl, xl, c, l, f):
+    # Calculates the reverse of cllp: What impedance is the load, with the source and matching network?
+    # Reverse source and load to calculate: What impedance does the source see with the load and matching network?
+    w = 2*pi*f
+    c = c / 1000000000000 # pF to F
+    l = l / 1000000000    # nH to H
+
+    z_load = complex(rl, xl)
+    z_c = complex(0, -1/(w*c))
+    z_l = complex(0, w*l)
+
+    zseries = z_load + z_l
+    return (z_c*zseries)/(z_c+zseries)
+
+def lc_reverse(rl, xl, c, l, f):
+    # Calculates the reverse of cllp: What impedance is the load, with the source and matching network?
+    # Reverse source and load to calculate: What impedance does the source see with the load and matching network?
+    w = 2*pi*f
+    c = c / 1000000000000 # pF to F
+    l = l / 1000000000    # nH to H
+
+    z_load = complex(rl, xl)
+    z_c = complex(0, -1/(w*c))
+    z_l = complex(0, w*l)
+
+    return (z_c*z_load)/(z_c+z_load) + z_l
+
+
 def cllp(rs, xs, rl, xl, f):
-    w = 2.0*3.14159*f
+    w = 2*pi*f
     qs = -xs/rs
     ql = xl/rl
     rp = rs*(1+qs*qs)
@@ -26,6 +54,9 @@ def cllp(rs, xs, rl, xl, f):
     ls = Q*rl/w
     l = (ls-l1) * 1000000000 # nH
     
+    if c < 0 or l < 0:
+        return None
+
     return {"c": c, "l": l}
 
 
@@ -34,9 +65,16 @@ def sig_digit(x, num_digits=3):
     return round(float(x), -int(floor(log10(abs(x)))-(num_digits-1)))
 
 
+def round_to(x, place):
+    # Round to place.  eg: place=0.001, x=1.234567 would return 1.235
+    return round(float(x)*(1/place))*place
+
+
 def make_networks(s1p_file, freqs):
     s1p = rf.Network(s1p_file)
     
+    print("--------Measurements:--------   -----Ideal Matching Network:----   -Actual Matching Network:-   ---------Actual Impedance:--------")
+    print("--Freq:--  ---R:--  ----X:---   ----C:---  ----L:----  ----C:---   ---C:--  ---L:---  ---C:--   ---R:---  ----X:---  --|Z|-  -SWR-")
     for f_mhz in freqs:
         f_hz = f_mhz*1000000
         net=s1p[str(f_hz)]
@@ -45,20 +83,56 @@ def make_networks(s1p_file, freqs):
         rs = 50.0
         xs = 0.0
 
+        # Returns None if invalid.
         cl = cllp(rs, xs, rl, xl, f_hz)
         lc = lclp(rs, xs, rl, xl, f_hz)
 
-        if cl is not None and (cl['c'] < 0 or cl['l'] < 0):
-            cl = None
-        if lc is not None and (lc['c'] < 0 or lc['l'] < 0):
-            lc = None
+        # Set numeric precision, and select tuner values
+        if cl is not None:
+            # Ideal values
+            c1 = f"{round_to(cl['c'], 0.01):>7.2f}pf"
+            l = f"{round_to(cl['l'], 0.01):8.2f}nH"
+            c2 = "         "
 
-        if cl is None:
-            print(f"Freq: {f_mhz}MHz\tR+jX: {sig_digit(rl)}+j{sig_digit(xl)}\tC:\t\tL: {sig_digit(lc['l'])}nH\tC: {sig_digit(lc['c'])}pF")
-        elif lc is None:
-            print(f"Freq: {f_mhz}MHz\tR+jX: {sig_digit(rl)}+j{sig_digit(xl)}\tC: {sig_digit(cl['c'])}pF\tL: {sig_digit(cl['l'])}nH\tC:")
-        else:
-            print(f"Freq: {f_mhz}MHz\tR+jX: {sig_digit(rl)}+j{sig_digit(xl)}\tC: {sig_digit(cl['c'])}pF\tL: {sig_digit(cl['l'])}nH\t\tL: {sig_digit(lc['l'])}nH\tC: {sig_digit(lc['c'])}pF")
+            # Actual values available on the tuner
+            c_actual = round_to(cl['c'], 10)
+            l_actual = round_to(cl['l'], 100)
+            ct1 = f"{c_actual:>5.0f}pf"
+            lt = f"{l_actual:>6.0f}nH"
+            ct2 = "       "
+
+            # Actual impedance presented to source
+            zsource = cl_reverse(rl, xl, c_actual, l_actual, f_hz)
+            #zsource = cl_reverse(rl, xl, cl['c'], cl['l'], f_hz)
+
+        if lc is not None:
+            # Ideal values
+            c1 = "         "
+            l = f"{round_to(lc['l'], 0.01):8.2f}nH"
+            c2 = f"{round_to(lc['c'], 0.01):>7.2f}pf"
+
+            # Actual values available on the tuner
+            c_actual = round_to(lc['c'], 10)
+            l_actual = round_to(lc['l'], 100)
+            ct1 = "       "
+            lt = f"{l_actual:>6.0f}nH"
+            ct2 = f"{c_actual:>5.0f}pf"
+
+            # Actual impedance presented to source
+            zsource = lc_reverse(rl, xl, c_actual, l_actual, f_hz)
+            #zsource = lc_reverse(rl, xl, lc['c'], lc['l'], f_hz)
+
+        r_measured = f"{rl:>7.2f}"
+        x_measured = f"{xl:>+8.2f}j"
+        r_actual = f"{round_to(zsource.real, .01):>7.2f}"
+        x_actual = f"{round_to(zsource.imag, .01):>+8.2f}j"
+        z = sqrt(zsource.real*zsource.real + zsource.imag*zsource.imag)
+        swr = z/50.0
+        if swr < 1:
+            swr = 1/swr
+        z = sig_digit(z)
+
+        print(f"{f_mhz:>6.2f}MHz  {r_measured}  {x_measured}   {c1}  {l}  {c2}   {ct1}  {lt}  {ct2}    {r_actual}  {x_actual}  {z:>6.1f}  {swr:>5.2f}")
 
 
 if (__name__ == "__main__"):
@@ -68,7 +142,7 @@ if (__name__ == "__main__"):
 
     freqs = [3.75, 7.15, 10.12, 14.17, 18.11, 21.20, 24.94, 28.5]
     for s1p_file in sys.argv[1:]:
-        print(f"File: {s1p_file}")
+        print(f"{s1p_file}")
         make_networks(s1p_file, freqs)
         print("")
     
