@@ -3,7 +3,7 @@ I removed all the old `.s1p` files, they are junk.  (If you really want the data
 
 [Twitter thread from today.](https://twitter.com/smittyhalibut/status/1346524796457156610?s=20)
 
-## TIL (Today I Learned)
+## TIL
 Did you know that calibrating a VNA is frequency dependent?  You have to set the frequency sweep range on the nVNA (easier to type than NanoVNA) before you calibrate, otherwise it will only calibrate the default range!
 
 So, yeah.  All the Touchstone data from before today is junk.  I've removed it from the repo (it's still in the history) so no one attempts to analyze known bad data.
@@ -13,23 +13,23 @@ I setup a "mini field day" in my back yard: a small table and chair, equipment, 
 
 The Radio setup: IC-735 (recently inherited from my dad), to 3' jumper of RG-8X, to LDG RC-600 tuner controller, to about 20' RG-58 feedline, to LDG RT-600 tuner, to about 3' jumper of RG-8X, to balun (11 turns of twin lead on an FT140-43 core), and finally to the delta loops.
 
-I calibrated both the nVNA and NanoVNA Saver from 3MHz to 30MHz: nVNA, to SMA to PL-259 adapters, to 3' jumper, to RC-600, to about 20' RG-58 feedline, to PL-259 adapters, to nVNA O/S/L tests.  So this should "calibrate" the 20' feed line and controller out of my measurements.
+I calibrated both the nVNA and the NanoVNA Saver software (it has its own calibration routines too) from 3MHz to 30MHz: nVNA, to SMA to PL-259 adapters, to 3' jumper, to RC-600, to about 20' RG-58 feedline, to PL-259 adapters, to nVNA O/S/L tests.  So this should "calibrate" the 20' feed line and controller out of my measurements.
 
 I measured the antenna in the same three configurations as before:
 * Parallel loops
 * Series loops
 * A single loop
 
-They look a lot closer to what I expect: a horrible match on their own, but tunable.
+Raw data is below. They look a lot closer to what I expect: a horrible match on their own, but tunable.
 
-I added one more feature to `make_matching_network.py`: If the ideal matching network component value is larger than the RT-600 can do, it sets the "actual" component value to the maximum the tuner is capable, and uses that to calculate the actual impedance that the radio sees.
+I added another feature to `make_matching_network.py`: If the ideal matching network component value is larger than the RT-600 can do, it sets the "actual" component value to the maximum the tuner is capable, and uses that to calculate the actual impedance that the radio sees.
 
-## What do I see from today's nVNA data?
-The three different configurations are producing different data, though the data isn't the "parallel = Z/2, series = 2Z" that I'd expect.  But at least its different now.
+### What do I see from today's nVNA data?
+The three different configurations are producing different data, though the data isn't the "parallel = Z/2, series = 2Z" that I'd expect.  But at least its different now.  (Before calibration, all three configs produced nearly identical data.)
 
 My script says that 80m, 40m, and 30m are outside the tuner's ability to tune.  However, if the tuner just gets as close as it can, it's not that bad.  In fact, a single loop on 40m still tunes to 1.05:1 even though it "doesn't have enough capacitance!"  That's better than the 2.92:1 on 20m that _IS_ in range! (See below.)
 
-## Predictions vs Measurements
+### Predictions vs Measurements in the field
 It was getting dark as I was taking measurements, so I wanted to get everything packed back up and headed inside.  But I did take enough time to connect the radio and give the Tuner more time to do its work than I did before.  I also figured out how to see the SWR on this radio (it's non-obvious for some reason).
 
 The antenna was configured for a single loop.  I tuned up on 20m, which I expected to work, and saw about 2.5:1 SWR. Not great, but workable.  I tuned up on 15 and 10m and saw about 1.5:1 (I'm going from memory.  It was "Good, but not perfect.")
@@ -40,7 +40,28 @@ Later, after dinner, I started looking closer at the data I had collected and no
 
 **HOLY CATS**...  My predictions from the NanoVNA measurements and my calculations, are matching the data I'm seeing from the radio!  Granted, it's not many data points, and they're very inprecise, and from memory...  BUT IT'S MATCHING..
 
-## Data
+## On Air Observations from the shack
+Back in the shack, with about 200' of possibly-questionable RG-213 between the radio/RC-600 and the tuner, and the antenna back in Parallel-InPhase configuration.  I dialed around various bands and forced a tune every 30kHz or so, just to program the tuner.  Note that the Double Delta Slot is at the back corner of my yard, about 79' away from the house.
+
+Comparisons are made against a rotatable trap dipole ([Comet H422](https://www.dxengineering.com/parts/cma-h-422)) at ~40' elevation directly over my house, with about 75' of LMR400-UF cable. 
+
+### Match
+Sure 'nuf, the tuner was able to match the antenna down to 1:1 across the whole 40m band.  20m and 15m got down to about 1.2:1.  These match predictions.  (I didn't do an exhaustive data collection.)
+
+### Sensitivity
+The H422 is definitely louder.  Very not-scientificly, it's about 10db louder.  And that's after forcing a tune.  Granted, the feedline is shorter and lower loss, but not by enough to account for 10db.
+
+(Before finding a blown fuse, and figuring out how to properly calibrate my nVNA, I blamed all these problems on questionable feedline and purchased [a 500' spool of DX Engineering DXE-400MAX](https://www.dxengineering.com/parts/dxe-400max-500). **'cuz why not immediately jump to the expensive solution before testing everything?!**  Anyway.  It's coming, and it's way better than the RG-213.  I'll replace the RG-213 with this LMR-400-a-like which should improve the loss in the feedline.)
+
+### Noise
+Even though the Double Delta Slot is quieter, in several cases it sounded like the signal to noise ratio was better than the H422.
+
+Obviously this depends on where the signal is relative to the radiation pattern.  I tried to point the H422 in about the same direction as the Double Delta Slot, but I'm not sure.  It also could be that the Double Delta Slot is about 80' away from the house, where as the H422 is directly above my house. There are a lot of unknows here, but initial data is positive.
+
+### ~~Getting out~~
+I'm tired and don't feel like talking to anyone today, so I didn't attempt to make any QSOs.  We'll see how it does some other time.
+
+## Raw Data
 Raw Touchstone files are in [2021-01-05/](2021-01-05/).  I'll save you the effort of running my script on it, here's the output:
 ```
 DoubleDletaSlotAntenna/NanoVNA Saver Files/2021-01-05$ ../make_matching_network.py Parallel-InPhase.s1p Series-InPhase.s1p Single-NS.s1p 
@@ -141,7 +162,7 @@ Given all the above, the goal is to:
   * Parallel Loops
   * Series Loops
 * Calculate the matching network required to match each configuration to a 50+j0 load on each of the ham bands.
-* Verify my tuner can handle it: L > 12700nH, C > 1270pF
+* Verify my tuner can handle it: L < 12700nH, C < 1270pF
 * Idenfity which configuration has lower L and C values.
   * TODO: What to do if one config has a better L but the other has a better C?  Might have to break out some actual math.
 * Is one configuration a clear winner for all bands?  Or is the "best" configuration different for each band?
