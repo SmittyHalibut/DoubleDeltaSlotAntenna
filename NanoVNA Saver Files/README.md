@@ -1,6 +1,8 @@
 # Update 2021-01-05:
 I removed all the old `.s1p` files, they are junk.  (If you really want the data to compare, look in the git history.)
 
+[Twitter thread from today.](https://twitter.com/smittyhalibut/status/1346524796457156610?s=20)
+
 ## TIL (Today I Learned)
 Did you know that calibrating a VNA is frequency dependent?  You have to set the frequency sweep range on the nVNA (easier to type than NanoVNA) before you calibrate, otherwise it will only calibrate the default range!
 
