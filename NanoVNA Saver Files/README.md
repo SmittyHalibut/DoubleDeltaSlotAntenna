@@ -1,4 +1,4 @@
-# UPdate 2021-01-05:
+# Update 2021-01-05:
 I removed all the old `.s1p` files, they are junk.  (If you really want the data to compare, look in the git history.)
 
 ## TIL (Today I Learned)
