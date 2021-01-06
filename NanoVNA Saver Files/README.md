@@ -43,7 +43,7 @@ Later, after dinner, I started looking closer at the data I had collected and no
 ## On Air Observations from the shack
 Back in the shack, with about 200' of possibly-questionable RG-213 between the radio/RC-600 and the tuner, and the antenna back in Parallel-InPhase configuration.  I dialed around various bands and forced a tune every 30kHz or so, just to program the tuner.  Note that the Double Delta Slot is at the back corner of my yard, about 79' away from the house.
 
-Comparisons are made against a rotatable trap dipole ([Comet H422](https://www.dxengineering.com/parts/cma-h-422)) at ~40' elevation directly over my house, with about 75' of LMR400-UF cable. 
+Comparisons are made against a rotatable trap dipole ([Comet H422](https://www.dxengineering.com/parts/cma-h-422)) at ~40' elevation directly over my house, with about 125' of LMR400-UF cable. 
 
 ### Match
 Sure 'nuf, the tuner was able to match the antenna down to 1:1 across the whole 40m band.  20m and 15m got down to about 1.2:1.  These match predictions.  (I didn't do an exhaustive data collection.)
