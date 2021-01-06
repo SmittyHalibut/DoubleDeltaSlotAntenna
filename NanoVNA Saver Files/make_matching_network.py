@@ -88,6 +88,7 @@ def make_networks(s1p_file, freqs):
         lc = lclp(rs, xs, rl, xl, f_hz)
 
         # Set numeric precision, and select tuner values
+        alarm = ""
         if cl is not None:
             # Ideal values
             c1 = f"{round_to(cl['c'], 0.01):>7.2f}pf"
@@ -97,6 +98,12 @@ def make_networks(s1p_file, freqs):
             # Actual values available on the tuner
             c_actual = round_to(cl['c'], 10)
             l_actual = round_to(cl['l'], 100)
+            if c_actual > 1270:
+                c_actual = 1270
+                alarm += "!c"
+            if l_actual > 12700:
+                l_actual = 12700
+                alarm += "!l"
             ct1 = f"{c_actual:>5.0f}pf"
             lt = f"{l_actual:>6.0f}nH"
             ct2 = "       "
@@ -114,6 +121,12 @@ def make_networks(s1p_file, freqs):
             # Actual values available on the tuner
             c_actual = round_to(lc['c'], 10)
             l_actual = round_to(lc['l'], 100)
+            if c_actual > 1270:
+                c_actual = 1270
+                alarm += "!c"
+            if l_actual > 12700:
+                l_actual = 12700
+                alarm += "!l"
             ct1 = "       "
             lt = f"{l_actual:>6.0f}nH"
             ct2 = f"{c_actual:>5.0f}pf"
@@ -132,7 +145,7 @@ def make_networks(s1p_file, freqs):
             swr = 1/swr
         z = sig_digit(z)
 
-        print(f"{f_mhz:>6.2f}MHz  {r_measured}  {x_measured}   {c1}  {l}  {c2}   {ct1}  {lt}  {ct2}    {r_actual}  {x_actual}  {z:>6.1f}  {swr:>5.2f}")
+        print(f"{f_mhz:>6.2f}MHz  {r_measured}  {x_measured}   {c1}  {l}  {c2}   {ct1}  {lt}  {ct2}    {r_actual}  {x_actual}  {z:>6.1f}  {swr:>5.2f} {alarm}")
 
 
 if (__name__ == "__main__"):
