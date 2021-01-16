@@ -8,6 +8,25 @@ pF = 1000000000000
 nH = 1000000000
 
 
+class Impedance(complex):
+
+    def __init__(self, r, x = None):
+        super().__init__()
+
+        self.abs_z = sqrt(self.real*self.real + self.imag*self.imag)
+        swr = self.abs_z/50.0
+        # How does SWR ever get to 0.0? I get an error here in my testing, but never see a 0 in my results. :-/
+        if 0 < swr < 1:
+            self.swr = 1/swr
+        else:
+            self.swr = swr
+
+
+    def __str__(self):
+        return f"{self.real:>7.2f}  {self.imag:>+8.2f}j  {self.abs_z:>6.1f}  {self.swr:>5.2f}"
+
+
+
 class MatchingNetwork:
     c1 = None
     l1 = None
@@ -19,7 +38,7 @@ class MatchingNetwork:
     l_str = None
 
 
-    def __init__(self, c1: float = None, l1: float = None, c2: float = None, z_source: complex = None, z_load: complex = None, freq: int = None):
+    def __init__(self, c1: float = None, l1: float = None, c2: float = None, z_source: Impedance = None, z_load: Impedance = None, freq: int = None):
         """
         Builds a `MatchingNetwork` object from givens.  You must provide EITHER:
         * `z_source`, `z_load`, and `freq` We'll calculate the values needed, OR
@@ -29,8 +48,8 @@ class MatchingNetwork:
         :param c1: A `float` value for a capacitor in parallel with `z_source`, in Farads. `None`, if the matching network needs capacitance in parallel with the load instead.
         :param l1: A `float` value for an inductor in series between `z_source` and `z_load`, in Henrys
         :param c2: A `float` value for a capacitor in parallel with `z_load`, in Farads. `None`, if the matching network needs capacitance in parallel with the source instead.
-        :param z_source: A `complex` impedance of the source.
-        :param z_load: A `complex` impedance of the load.
+        :param z_source: A `Impedance` impedance of the source.
+        :param z_load: A `Impedance` impedance of the load.
         :param freq: An `int` frequency to build the network for, in Hz
         :return: A `MatchingNetwork` object.
         """
@@ -72,7 +91,7 @@ class MatchingNetwork:
             self.l_str = l
 
 
-    def _c_first_low_pass(self, z_source, z_load, freq):
+    def _c_first_low_pass(self, z_source: Impedance, z_load: Impedance, freq):
         w = 2*pi*freq
         r_source = z_source.real
         x_source = z_source.imag
@@ -102,7 +121,7 @@ class MatchingNetwork:
         self.c2 = None
 
 
-    def make_network(self, z_source, z_load, freq):
+    def make_network(self, z_source: Impedance, z_load: Impedance, freq: float):
         """
         Makes an L matching network that will match `z_load` to `z_source` at `freq`.
         Strictly speaking, `load` and `source` are arbitrary.  But the resultant network
@@ -112,8 +131,8 @@ class MatchingNetwork:
         Since this is an L network, not a Pi network, only either `MatchingNetwork.c1` or `MatchingNetwork.c2` will
         be defined, the other will be `None`.
 
-        :param z_load: A `complex` load impedance.
-        :param z_source: A `complex` source impedance.
+        :param z_load: A `Impedance` load impedance.
+        :param z_source: A `Impedance` source impedance.
         :param freq: An `int` frequency to build this network for.
         :return: None. It sets the internal values in this `MatchingNetwork` object.
         """
@@ -127,56 +146,49 @@ class MatchingNetwork:
             self.c2 = foo
     
 
-    def apply_network(self, z_load: complex, freq: int):
+    def apply_network(self, z_load: Impedance, freq: int):
         """
         Apply the compmonents from network to z_load at freq and return the resulting impedance.
         `MatchingNetwork.c2` is applied in parallel with `z_load`, then `MatchingNetwork.l1` in series, then `MatchingNetwork.c1` in parallel.
 
-        :param z_load: A `complex` impedance.
+        :param z_load: A `Impedance` impedance.
         :param freq: An `int` frequency to apply this network at.
-        :return: Returns a `complex` impedance.
+        :return: Returns a `Impedance` impedance.
         """
         w = 2*pi*freq
         z_effective = z_load
     
         # c2 in parallel
         if self.c2 is not None:
-            z_c2 = complex(0, -1/(self.c2*w))
+            z_c2 = Impedance(0, -1/(self.c2*w))
             z_effective = (z_c2*z_effective)/(z_c2+z_effective)
     
         # l1 in series
-        z_l1 = complex(0, w*self.l1)
+        z_l1 = Impedance(0, w*self.l1)
         z_effective = z_effective + z_l1
     
         # c1 in parallel
         if self.c1 is not None:
-            z_c1 = complex(0, -1/(self.c1*w))
+            z_c1 = Impedance(0, -1/(self.c1*w))
             z_effective = (z_c1*z_effective)/(z_c1+z_effective)
     
-        return z_effective
+        return Impedance(z_effective)
 
 
     def __str__(self):
         if self.c1 is not None:
-            c1_str = f"{round_to(self.c1*self.c_unit, 0.01):>7.2f}{self.c_str}"
+            c1_str = f"{round_to(self.c1*self.c_unit, 1):>4.0f}{self.c_str}"
         else:
-            c1_str = "         "
+            c1_str = "      "
 
-        l1_str = f"{round_to(self.l1*self.l_unit, 0.01):>8.2f}{self.l_str}"
+        l1_str = f"{round_to(self.l1*self.l_unit, 1):>5.0f}{self.l_str}"
 
         if self.c2 is not None:
-            c2_str = f"{round_to(self.c2*self.c_unit, 0.01):>7.2f}{self.c_str}"
+            c2_str = f"{round_to(self.c2*self.c_unit, 1):>4.0f}{self.c_str}"
         else:
-            c2_str = "         "
+            c2_str = "      "
 
         return c1_str + "  " + l1_str + "  " + c2_str
-
-def sig_digit(x: float, num_digits: int = 3):
-    # Round to num_digits significant digits
-    if x is None:
-        return None
-    return round(float(x), -int(floor(log10(abs(x)))-(num_digits-1)))
-
 
 def round_to(x: float, place: float):
     # Round to place.  eg: place=0.001, x=1.234567 would return 1.235
@@ -185,9 +197,28 @@ def round_to(x: float, place: float):
     return round(float(x)*(1/place))*place
 
 
+def print_header():
+    print("---------------Measurements:----------------   -----Ideal Network:----   -----Tuner Network:----     ---------Tuner Impedance:---------   -----------Mid Impedance:---------")
+    print("--Freq:--  ---R:--  ----X:---  --|Z|-  -SWR-   --C:--  ---L:--  --C:--   --C:--  ---L:--  --C:--     ---R:---  ----X:---  --|Z|-  -SWR-   ---R:---  ----X:---  --|Z|-  -SWR-")
+
+
+def print_row(freq, z_load=None, network_ideal=None, network_tuner=None, alarm=None, z_tuner=None, z_mid=None, row=None):
+    if row is not None:
+        z_load = row['z_load']
+        network_ideal = row['network_ideal']
+        network_tuner = row['network_tuner']
+        alarm = row['alarm']
+        z_tuner = row['z_tuner']
+        z_mid = row['z_mid']
+
+    print(f"{freq/1000000:>6.2f}MHz  {z_load}   {network_ideal}   {network_tuner} {alarm}  {z_tuner}    {z_mid}")
+
+
 def make_networks(s1p_file, freqs):
+    networks = dict()
+    
     # Everything uses a 50ohm source impedance.
-    z_source = complex(50.0, 0.0)
+    z_source = Impedance(50.0, 0.0)
 
     s1p = rf.Network(s1p_file)
     
@@ -198,17 +229,13 @@ def make_networks(s1p_file, freqs):
     #mid_freq = freqs[int(len(freqs)*.5)]
     antenna = s1p[str(mid_freq)]
 
-    z_load = complex(float(antenna.z_re), float(antenna.z_im))
+    z_load = Impedance(float(antenna.z_re), float(antenna.z_im))
     network_mid = MatchingNetwork(z_source=z_source, z_load=z_load, freq=mid_freq)
 
-    print("--------Measurements:--------   -----Ideal Matching Network:----   -----Tuner Matching Network:----     ---------Tuner Impedance:---------   -----------Mid Impedance:---------")
-    print("--Freq:--  ---R:--  ----X:---   ----C:---  ----L:----  ----C:---   ----C:---  ----L:----  ----C:---     ---R:---  ----X:---  --|Z|-  -SWR-   ---R:---  ----X:---  --|Z|-  -SWR-")
     for freq in freqs:
         antenna=s1p[str(freq)]
-        z_load = complex(float(antenna.z_re), float(antenna.z_im))
-
+        z_load = Impedance(float(antenna.z_re), float(antenna.z_im))
         network = MatchingNetwork(z_source=z_source, z_load=z_load, freq=freq)
-        #print(f"DEBUG: .{network.l1}.")
 
         alarm = "   "
 
@@ -229,35 +256,32 @@ def make_networks(s1p_file, freqs):
             c2_tuner = c_max
             alarm = "!c2"
 
-        r_measured = f"{z_load.real:>7.2f}"
-        x_measured = f"{z_load.imag:>+8.2f}j"
-
         # Actual impedance presented to source when tuned
         network_tuner = MatchingNetwork(c1=c1_tuner, l1=l1_tuner, c2=c2_tuner)
         z_tuner = network_tuner.apply_network(z_load, freq)
-        r_tuner = f"{round_to(z_tuner.real, .01):>7.2f}"
-        x_tuner = f"{round_to(z_tuner.imag, .01):>+8.2f}j"
-        abs_z_tuner = sqrt(z_tuner.real*z_tuner.real + z_tuner.imag*z_tuner.imag)
-        swr_tuner = abs_z_tuner/50.0
-        if swr_tuner < 1:
-            swr_tuner = 1/swr_tuner
-        abs_z_tuner = sig_digit(abs_z_tuner)
 
         # Actual impedance when using the mid-range value matching network
         z_mid = network_mid.apply_network(z_load, freq)
-        r_mid = f"{round_to(z_mid.real, .01):>7.2f}"
-        x_mid = f"{round_to(z_mid.imag, .01):>+8.2f}j"
-        abs_z_mid = sqrt(z_mid.real*z_mid.real + z_mid.imag*z_mid.imag)
-        swr_mid = abs_z_mid/50.0
-        if swr_mid < 1:
-            swr_mid = 1/swr_mid
-        abs_z_mid = sig_digit(abs_z_mid)
 
-        print(f"{freq/1000000:>6.2f}MHz  {r_measured}  {x_measured}   {network}   {network_tuner} {alarm}  {r_tuner}  {x_tuner}  {abs_z_tuner:>6.1f}  {swr_tuner:>5.2f}    {r_mid}  {x_mid}  {abs_z_mid:>6.1f}  {swr_mid:>5.2f}")
+
+        # Save in the larger data structure
+        networks[freq] = {
+            'z_load': z_load,
+            'z_tuner': z_tuner,
+            'z_mid': z_mid,
+            'network_ideal': network,
+            'network_tuner': network_tuner,
+            'network_mid': network_mid,
+            'alarm': alarm,
+        }
+
+    return networks
+
 
 
 
 def make_bands(s1p_file, bands):
+    networks_by_band = dict()
     for band in bands:
         lower = band['lower']
         upper = band['upper']
@@ -267,16 +291,20 @@ def make_bands(s1p_file, bands):
         third_quarter = bw*.75 + lower
 
         freqs = [lower, first_quarter, middle, third_quarter, upper]
-        print(f"Band: {band['name']}")
-        make_networks(s1p_file, freqs)
-        print("")
+        #print(f"Band: {band['name']}")
+        #print_header()
+        networks_by_band[band['name']] = make_networks(s1p_file, freqs)
+        #for freq, network in networks_by_band[band['name']].items():
+        #    print_row(freq, network['z_load'], network['network_ideal'], network['network_tuner'], network['alarm'], network['z_tuner'], network['z_mid'])
+        #print("")
+
+    return networks_by_band
 
 if (__name__ == "__main__"):
     if len(sys.argv) < 2:
         print("ERROR: Must specify at least one 's1p' filename. Exiting.")
         exit(1)
 
-    freqs = [3750000, 7150000, 10120000, 14170000, 18110000, 21200000, 24940000, 28500000]
     bands = [
         #{'lower': 135700, 'name': '2200m', 'upper': 137800},
         #{'lower': 472000, 'name': '630m', 'upper': 479000},
@@ -300,10 +328,38 @@ if (__name__ == "__main__"):
         #{'lower': 1240000000, 'name': '23cm', 'upper': 1300000000},
     ]
 
-    for s1p_file in sys.argv[1:]:
-        print(f"{s1p_file}")
-        #make_networks(s1p_file, freqs)
-        make_bands(s1p_file, bands)
-        print("")
+    networks_by_file = dict()
+    files = sys.argv[1:]
+    for s1p_file in files:
+        networks_by_file[s1p_file] = make_bands(s1p_file, bands)
     
+    #print(networks_by_file)
 
+    # Print data by file, by band (original output)
+    if False:
+        for s1p_file, networks_by_band in networks_by_file.items():
+            print(f"# File: {s1p_file}")
+            for band, networks in networks_by_band.items():
+                print(f"### Band: {band}")
+                print_header()
+                for freq, row in networks.items():
+                    print_row(freq, row=row)
+                print("")
+        print("")
+
+
+    # Print data across multiple files, grouped by band
+    if True:
+        for band in bands:
+            band_name = band['name']
+            print(f"# Band: {band_name}")
+            for s1p_file in files:
+                networks = networks_by_file[s1p_file][band_name]
+                print(f"### File: {s1p_file}")
+                print("```")
+                print_header()
+                for freq, row in networks.items():
+                    print_row(freq, row=row)
+                print("```")
+                print("")
+            print("")
