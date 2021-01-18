@@ -1,3 +1,74 @@
+# Update 2021-01-16: 
+
+## Updates to `make_matching_network.py`
+Cleaned up some of the python code, making it a bit more pythonic (it's a word, look it up).  Also rearranged the output to group by band instead of file (read: antenna configuration.)  I'm trying to compare the different configurations of the antenna, so it's helpful to look at comparable data (read: for a given band) accross different configurations (read: files) together.
+
+Look in [2021-01-05/README.md](2021-01-05/README.md) for the output of `make_matching_network.py` on the antenna data collected on that day.
+
+### Fixed matching networks
+I also added a new column.  Instead of putting a configurable antenna tuner at the base of the antenna, what if you built a single fixed matching network to make it a mono-band antenna?  Maybe a pluggable, or remotely switchable, module to change bands.  How well would that work?
+
+For each band, I calculate the upper and lower limits of the band, and the "quarters", for a total of 5 frequencies in each band.  Using the 40m band as an example:
+* Lower limit: 7.00MHz
+* First quarter: 7.08MHz
+* Middle: 7.15MHz
+* Third quarter: 7.22Mhz
+* Upper limit: 7.30MHz
+
+I choose one of those frequencies (by hand, in code; it's not auto-caluclated), calculate the matching network for that frequency, and present what the load would look like at all 5 frequencies, given that one "mid point" matching network.
+
+I started choosing the literal mid point, half way between the upper and lower ends of the band.  But apparently the lower slope of the matching network drops off a lot quicker than the upper slope, meaning the SWR gets worse much more quickly going down in frequency than it does going up.  In most cases, choosing the "first quarter" frequency provides a much better match across the whole band.  The code I checked in uses the "first quarter" frequency.  You'll note that the first quarter row is always a perfect 50ohm 1:1 SWR match.  This is why.
+
+So, the "Mid Impedance" column is the R, X, |Z|, and SWR that the radio will see with this antenna if it were matched using a fixed matching network built for the "first quarter" frequency.  For the immediate term, this is just an oddity. I'm not using this for this analysis, but might use this later.
+
+## What conclusions can we draw?
+Reminder: We're looking for the "best" configuration (Parallel, Series, or Single).  
+
+The problem is, I'm not sure how to define "Best."  Originally, I defined it as as "the least matching required" thinking that would offer the best efficiency. Turns out, matching networks aren't lossy because of their reactance, but because they're real physical devices and not ideal components.  This makes sense.  Unfortunately, it also makes it difficult to calculate efficiency using nothing but the data here.
+
+Instead, I define "best" as "closest to 1:1 match," or "most resistive, least reactive match", regardless of "how hard" the tuner is working.
+
+This is an analysis of the data in [2021-01-05/README.md](2021-01-05/README.md).  There's some surprisng data here, which I'll comment on in the **Notes** field.
+
+| **Band** | **Parallel** | **Series** | **Single** |  **Notes** |
+| -------- | ------------ | ---------- | ---------- | ---------- |
+| 80m CW   | High SWR     | High SWR   | High SWR   | None of them are very good (3:1 to 4:1), L is out of range for all. |
+| 75m SSB  | High SWR     | Very Reactive | High SWR   | L is out of range.  SWR is lowest for Series (1.1:1 to 2:1), but its almost entirely reactive. |
+| 60m      | Great        | Good       | Great      | Series is a bit more reactive because C is out of range for the tuner. |
+| 40m      | Good         | Reactive   | Good       | All options could use more C, but still get close. Series is only 2.2:1 at worst. |
+| 30m      | Reactive     | Great      | High SWR   | Parallel and Single need more C. SWR are high, and very reactive. |
+| 20m      | More React   | Reactive   | High SWR   | Antenna has very low R, very reactive, hard to match. Varies wildly over the band. Single is hardest. |
+| 17m      | Great        | Reactive   | Great      | Series isn't bad, just more reactive than the others. All better than 2:1. |
+| 15m      | Good         | Good       | Good       | All are equally good not great. 1:1 to 2:1, moderately reactive. |
+| 12m      | Great        | Good       | Good       | Series and Single are just more reactive.  All better than 2:1. |
+| 10m      | Good         | Good       | Good       | All are equally good not great. 1:1 to 2:1, moderately reactive. |
+
+## Spit it out already! tl,dr:
+For starters, I'm going to eliminate 80m for further analysis and none of the configurations do an acceptable job matching 80m.  Series configuration gets close on the SSB section, but it's almost entirely reactive.  I'm considering this a 60m and up antenna at these dimensions.
+
+* **Q:** Is there a single best configuration?
+  **A:** No. The "best" configuration changes from band to band, and all configurations have problems on one band or another.
+
+* **Q:** What are each configuration good at?
+  **A:** Let's look at them individually.
+  * Parallel: Is Good or Great on all bands except 30m and 20m, where it'll still match at 2:1 or better, but very reactive matches.
+  * Series: Is Good (but not Great) on all bands, except 40m, 20m, and 17m, where it's more reactive than we prefer, but less reactive than Parallel on 20m.
+  * Single: Is Good or Great on all bands except 30m and 20m, where it has an unusably high SWR (above 2:1 for most the band, above 3:1 for at least part.)
+  
+* **Q:** Is it worth adding the complexity to switch configurations?
+  **A:** That depends on how badly you want good performance on all bands.  With the exception of 20m, there is a Good or Great configuration for all bands on either Parallel or Series, so the "more complex" antenna would work well on all bands, and the simpler antenna would be a compromise on some bands.  However, the complexitiy of the switching network makes operating more difficult, the antenna more expensive to build, and you'd have to run a more complex control cable to the antenna.
+
+* **Q:** Which configuration would you choose if you didn't want to make it switchable?
+  **A:** Parallel compromises 30m and 20m, but is Great on more bands.  Series compromises 40m, 20m (somewhat less than Parallal), and 17m.  (Single is only used for rotating the antenna by 45deg.)  For me personally, I'd choose Parallel because I work during the day and operate more at night when 40m is open.
+
+## What's next?
+As stated earlier, this is all for a presentation I'm giving at [BayCon 2021](http://www.bay-net.org/baycon-radio-conference.html).  My immediate next task is to put that presentation together.
+
+However, in conversations with W6NBC, he's got some more work he's doing on this design that he'll be presenting at QSO Today Expo in March 2021.  Once that work is released, I might do some more analysis here.  We'll see.
+
+In the mean time, off to put together an outline.  Cheers!
+-Mark
+
 # Update 2021-01-05:
 I removed all the old `.s1p` files, they are junk.  (If you really want the data to compare, look in the git history.)
 
