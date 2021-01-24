@@ -1,4 +1,221 @@
-EESchema Schematic File Version 2
-EELAYER 25 0
+EESchema Schematic File Version 4
+EELAYER 26 0
 EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 1 1 5F683237
+P 3700 4100
+F 0 "SW?" V 3746 3912 50  0000 R CNN
+F 1 "." V 3655 3912 50  0000 R CNN
+F 2 "" H 3700 4100 50  0001 C CNN
+F 3 "" H 3700 4100 50  0001 C CNN
+	1    3700 4100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 2 1 5F6832B9
+P 4300 4100
+F 0 "SW?" V 4346 3912 50  0000 R CNN
+F 1 "N/S Loop Enable" V 4255 3912 50  0000 R CNN
+F 2 "" H 4300 4100 50  0001 C CNN
+F 3 "" H 4300 4100 50  0001 C CNN
+	2    4300 4100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 1 1 5F68339C
+P 5800 4100
+F 0 "SW?" V 5846 3912 50  0000 R CNN
+F 1 "." V 5755 3912 50  0000 R CNN
+F 2 "" H 5800 4100 50  0001 C CNN
+F 3 "" H 5800 4100 50  0001 C CNN
+	1    5800 4100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 2 1 5F6833A3
+P 6400 4100
+F 0 "SW?" V 6446 3912 50  0000 R CNN
+F 1 "E/W Loop Enable" V 6355 3912 50  0000 R CNN
+F 2 "" H 6400 4100 50  0001 C CNN
+F 3 "" H 6400 4100 50  0001 C CNN
+	2    6400 4100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 1 1 5F683663
+P 4800 3300
+F 0 "SW?" V 4754 3112 50  0000 R CNN
+F 1 "." V 4845 3112 50  0000 R CNN
+F 2 "" H 4800 3300 50  0001 C CNN
+F 3 "" H 4800 3300 50  0001 C CNN
+	1    4800 3300
+	0    -1   1    0   
+$EndComp
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 2 1 5F68366A
+P 5400 3300
+F 0 "SW?" V 5354 3112 50  0000 R CNN
+F 1 "Parallel/Series" V 5445 3112 50  0000 R CNN
+F 2 "" H 5400 3300 50  0001 C CNN
+F 3 "" H 5400 3300 50  0001 C CNN
+	2    5400 3300
+	0    -1   1    0   
+$EndComp
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 1 1 5F68378F
+P 6200 2700
+F 0 "SW?" V 6246 2512 50  0000 R CNN
+F 1 "." V 6155 2512 50  0000 R CNN
+F 2 "" H 6200 2700 50  0001 C CNN
+F 3 "" H 6200 2700 50  0001 C CNN
+	1    6200 2700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Switch:SW_DPDT_x2 SW?
+U 2 1 5F683796
+P 6800 2700
+F 0 "SW?" V 6846 2512 50  0000 R CNN
+F 1 "Reverse Loop" V 6755 2512 50  0000 R CNN
+F 2 "" H 6800 2700 50  0001 C CNN
+F 3 "" H 6800 2700 50  0001 C CNN
+	2    6800 2700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:Transformer_1P_1S T?
+U 1 1 5F683953
+P 5100 5250
+F 0 "T?" V 5054 5491 50  0000 L CNN
+F 1 "1:1 Balun" V 5145 5491 50  0000 L CNN
+F 2 "" H 5100 5250 50  0001 C CNN
+F 3 "~" H 5100 5250 50  0001 C CNN
+	1    5100 5250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4900 4850 4900 4700
+Wire Wire Line
+	4900 4700 3700 4700
+Wire Wire Line
+	3700 4700 3700 4300
+Wire Wire Line
+	5300 4850 5300 4450
+Wire Wire Line
+	5300 4450 4300 4450
+Wire Wire Line
+	4300 4450 4300 4300
+Wire Wire Line
+	5300 4450 6400 4450
+Wire Wire Line
+	6400 4450 6400 4300
+Connection ~ 5300 4450
+Wire Wire Line
+	4900 4700 5800 4700
+Wire Wire Line
+	5800 4700 5800 4300
+Connection ~ 4900 4700
+$Comp
+L Connector:Screw_Terminal_01x02 J?
+U 1 1 5F683B56
+P 3600 2550
+F 0 "J?" V 3566 2362 50  0000 R CNN
+F 1 "N/S Loop" V 3475 2362 50  0000 R CNN
+F 2 "" H 3600 2550 50  0001 C CNN
+F 3 "~" H 3600 2550 50  0001 C CNN
+	1    3600 2550
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3600 2750 3600 3900
+Wire Wire Line
+	4200 3900 4200 3750
+Wire Wire Line
+	3700 3000 3700 2750
+Wire Wire Line
+	5700 3900 5700 3750
+Wire Wire Line
+	6300 3900 6300 3350
+Wire Wire Line
+	6300 3350 6800 3350
+Wire Wire Line
+	6800 3350 6800 2900
+Wire Wire Line
+	4200 3750 4700 3750
+Wire Wire Line
+	4700 3750 4700 3500
+Wire Wire Line
+	5700 3750 5300 3750
+Wire Wire Line
+	5300 3750 5300 3500
+Wire Wire Line
+	4800 3000 4800 3100
+Wire Wire Line
+	3700 3000 4800 3000
+Wire Wire Line
+	6200 3000 5400 3000
+Wire Wire Line
+	5400 3000 5400 3100
+Wire Wire Line
+	6200 2900 6200 3000
+Wire Wire Line
+	4900 3500 4900 3600
+Wire Wire Line
+	4900 3600 5500 3600
+Wire Wire Line
+	5500 3600 5500 3500
+$Comp
+L Connector:Screw_Terminal_01x02 J?
+U 1 1 5F685405
+P 6500 1800
+F 0 "J?" V 6466 1612 50  0000 R CNN
+F 1 "E/W Loop" V 6375 1612 50  0000 R CNN
+F 2 "" H 6500 1800 50  0001 C CNN
+F 3 "~" H 6500 1800 50  0001 C CNN
+	1    6500 1800
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6100 2500 6100 2200
+Wire Wire Line
+	6100 2200 6500 2200
+Wire Wire Line
+	6500 2200 6500 2000
+Wire Wire Line
+	6500 2200 6900 2200
+Wire Wire Line
+	6900 2200 6900 2500
+Connection ~ 6500 2200
+Wire Wire Line
+	6300 2500 6300 2400
+Wire Wire Line
+	6300 2400 6600 2400
+Wire Wire Line
+	6700 2400 6700 2500
+Connection ~ 6600 2400
+Wire Wire Line
+	6600 2400 6700 2400
+Wire Wire Line
+	6600 2000 6600 2400
+Text Notes 5350 5450 0    50   ~ 0
+(Ignore that this is not how a Balun is wired.)
 $EndSCHEMATC

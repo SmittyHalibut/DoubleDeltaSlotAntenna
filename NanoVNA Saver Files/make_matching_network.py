@@ -198,8 +198,10 @@ def round_to(x: float, place: float):
 
 
 def print_header():
-    print("---------------Measurements:----------------   -----Ideal Network:----   -----Tuner Network:----     ---------Tuner Impedance:---------   -----------Mid Impedance:---------")
-    print("--Freq:--  ---R:--  ----X:---  --|Z|-  -SWR-   --C:--  ---L:--  --C:--   --C:--  ---L:--  --C:--     ---R:---  ----X:---  --|Z|-  -SWR-   ---R:---  ----X:---  --|Z|-  -SWR-")
+    #print("---------------Measurements:----------------   -----Ideal Network:----   -----Tuner Network:----     ---------Tuner Impedance:---------   -----------Mid Impedance:---------")
+    #print("--Freq:--  ---R:--  ----X:---  --|Z|-  -SWR-   --C:--  ---L:--  --C:--   --C:--  ---L:--  --C:--     ---R:---  ----X:---  --|Z|-  -SWR-   ---R:---  ----X:---  --|Z|-  -SWR-")
+    print("---------------Measurements:----------------   -----Ideal Network:----   -----Tuner Network:----     ---------Tuner Impedance:---------")
+    print("--Freq:--  ---R:--  ----X:---  --|Z|-  -SWR-   --C:--  ---L:--  --C:--   --C:--  ---L:--  --C:--     ---R:---  ----X:---  --|Z|-  -SWR-")
 
 
 def print_row(freq, z_load=None, network_ideal=None, network_tuner=None, alarm=None, z_tuner=None, z_mid=None, row=None):
@@ -211,7 +213,8 @@ def print_row(freq, z_load=None, network_ideal=None, network_tuner=None, alarm=N
         z_tuner = row['z_tuner']
         z_mid = row['z_mid']
 
-    print(f"{freq/1000000:>6.2f}MHz  {z_load}   {network_ideal}   {network_tuner} {alarm}  {z_tuner}    {z_mid}")
+    #print(f"{freq/1000000:>6.2f}MHz  {z_load}   {network_ideal}   {network_tuner} {alarm}  {z_tuner}    {z_mid}")
+    print(f"{freq/1000000:>6.2f}MHz  {z_load}   {network_ideal}   {network_tuner} {alarm}  {z_tuner}")
 
 
 def make_networks(s1p_file, freqs):
@@ -336,7 +339,7 @@ if (__name__ == "__main__"):
     #print(networks_by_file)
 
     # Print data by file, by band (original output)
-    if False:
+    if True:
         for s1p_file, networks_by_band in networks_by_file.items():
             print(f"# File: {s1p_file}")
             for band, networks in networks_by_band.items():
@@ -349,7 +352,7 @@ if (__name__ == "__main__"):
 
 
     # Print data across multiple files, grouped by band
-    if True:
+    if False:
         for band in bands:
             band_name = band['name']
             print(f"# Band: {band_name}")
