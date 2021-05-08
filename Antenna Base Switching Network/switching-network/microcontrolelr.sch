@@ -1,0 +1,655 @@
+EESchema Schematic File Version 4
+LIBS:switching-network-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 4 4
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L smitty:Leonardo_Pro_Micro U4
+U 1 1 6026E6B2
+P 7550 4150
+F 0 "U4" H 7550 4997 60  0000 C CNN
+F 1 "Leonardo_Pro_Micro" H 7550 4891 60  0000 C CNN
+F 2 "Package_DIP:DIP-24_W15.24mm_Socket_LongPads" H 7600 4200 60  0001 C CNN
+F 3 "" H 7600 4200 60  0000 C CNN
+	1    7550 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR037
+U 1 1 6026EC9C
+P 9400 4850
+F 0 "#PWR037" H 9400 4600 50  0001 C CNN
+F 1 "GND" H 9405 4677 50  0000 C CNN
+F 2 "" H 9400 4850 50  0001 C CNN
+F 3 "" H 9400 4850 50  0001 C CNN
+	1    9400 4850
+	1    0    0    -1  
+$EndComp
+Text GLabel 9800 3950 2    50   Input ~ 0
+Mod2En
+Text GLabel 9800 4050 2    50   Input ~ 0
+Mod3En
+Text GLabel 9800 4350 2    50   Input ~ 0
+Mod4En
+Text GLabel 9800 4450 2    50   Input ~ 0
+Mod5En
+Text GLabel 9800 4650 2    50   Input ~ 0
+NSDisable
+Text GLabel 9800 4550 2    50   Input ~ 0
+EWDisable
+Text GLabel 9800 4250 2    50   Input ~ 0
+SeriesEnable
+Text GLabel 9800 4150 2    50   Input ~ 0
+EWReverse
+$Comp
+L Interface_UART:ST485EBDR U1
+U 1 1 6026F3D8
+P 2800 2700
+F 0 "U1" H 2700 3150 50  0000 C CNN
+F 1 "SN65HVD10-EP" H 2450 3050 50  0000 C CNN
+F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 2800 1800 50  0001 C CNN
+F 3 "http://www.st.com/resource/en/datasheet/st485eb.pdf" H 2800 2750 50  0001 C CNN
+	1    2800 2700
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	3550 2800 3300 2800
+Wire Wire Line
+	3200 2700 3300 2700
+Wire Wire Line
+	3300 2700 3300 2800
+Connection ~ 3300 2800
+Wire Wire Line
+	3300 2800 3200 2800
+$Comp
+L power:GND #PWR034
+U 1 1 6026F88C
+P 6550 3750
+F 0 "#PWR034" H 6550 3500 50  0001 C CNN
+F 1 "GND" H 6400 3700 50  0000 C CNN
+F 2 "" H 6550 3750 50  0001 C CNN
+F 3 "" H 6550 3750 50  0001 C CNN
+	1    6550 3750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6550 3750 6650 3750
+Wire Wire Line
+	6650 3850 6650 3750
+Connection ~ 6650 3750
+$Comp
+L power:GND #PWR028
+U 1 1 6026FB89
+P 2800 3200
+F 0 "#PWR028" H 2800 2950 50  0001 C CNN
+F 1 "GND" H 2805 3027 50  0000 C CNN
+F 2 "" H 2800 3200 50  0001 C CNN
+F 3 "" H 2800 3200 50  0001 C CNN
+	1    2800 3200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR036
+U 1 1 6026FEDF
+P 8900 3650
+F 0 "#PWR036" H 8900 3400 50  0001 C CNN
+F 1 "GND" H 8900 3700 50  0000 C CNN
+F 2 "" H 8900 3650 50  0001 C CNN
+F 3 "" H 8900 3650 50  0001 C CNN
+	1    8900 3650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:8P8C_Shielded J11
+U 1 1 6027043F
+P 1400 2400
+F 0 "J11" H 1455 3067 50  0000 C CNN
+F 1 "8P8C_Shielded" H 1455 2976 50  0000 C CNN
+F 2 "Libraries:RJ-45" V 1400 2425 50  0001 C CNN
+F 3 "~" V 1400 2425 50  0001 C CNN
+	1    1400 2400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1800 2700 1800 2900
+Wire Wire Line
+	1800 2900 2250 2900
+Wire Wire Line
+	1800 2400 1900 2400
+Wire Wire Line
+	1900 2400 1900 2300
+Wire Wire Line
+	1900 2300 1800 2300
+Wire Wire Line
+	1900 2300 2300 2300
+Connection ~ 1900 2300
+Wire Wire Line
+	1800 2100 1900 2100
+Wire Wire Line
+	1900 2100 1900 2000
+Wire Wire Line
+	1900 2000 1800 2000
+$Comp
+L power:GND #PWR023
+U 1 1 60273C7F
+P 2050 2000
+F 0 "#PWR023" H 2050 1750 50  0001 C CNN
+F 1 "GND" H 2055 1827 50  0000 C CNN
+F 2 "" H 2050 2000 50  0001 C CNN
+F 3 "" H 2050 2000 50  0001 C CNN
+	1    2050 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR024
+U 1 1 60274426
+P 2300 2300
+F 0 "#PWR024" H 2300 2150 50  0001 C CNN
+F 1 "+12V" H 2315 2473 50  0000 C CNN
+F 2 "" H 2300 2300 50  0001 C CNN
+F 3 "" H 2300 2300 50  0001 C CNN
+	1    2300 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP_Small C3
+U 1 1 602762C3
+P 2700 1150
+F 0 "C3" H 2788 1196 50  0000 L CNN
+F 1 "100uF" H 2788 1105 50  0000 L CNN
+F 2 "Capacitor_THT:CP_Radial_D10.0mm_P2.50mm_P5.00mm" H 2700 1150 50  0001 C CNN
+F 3 "~" H 2700 1150 50  0001 C CNN
+	1    2700 1150
+	1    0    0    -1  
+$EndComp
+Connection ~ 2700 1050
+Wire Wire Line
+	2700 1050 3000 1050
+$Comp
+L Device:CP_Small C4
+U 1 1 6027630D
+P 3700 1150
+F 0 "C4" H 3788 1196 50  0000 L CNN
+F 1 "100uF" H 3788 1105 50  0000 L CNN
+F 2 "Capacitor_THT:CP_Radial_D10.0mm_P2.50mm_P5.00mm" H 3700 1150 50  0001 C CNN
+F 3 "~" H 3700 1150 50  0001 C CNN
+	1    3700 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3600 1050 3700 1050
+Wire Wire Line
+	3700 1050 3800 1050
+Connection ~ 3700 1050
+$Comp
+L power:GND #PWR026
+U 1 1 602774F7
+P 2700 1250
+F 0 "#PWR026" H 2700 1000 50  0001 C CNN
+F 1 "GND" H 2705 1077 50  0000 C CNN
+F 2 "" H 2700 1250 50  0001 C CNN
+F 3 "" H 2700 1250 50  0001 C CNN
+	1    2700 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR029
+U 1 1 60277512
+P 3300 1350
+F 0 "#PWR029" H 3300 1100 50  0001 C CNN
+F 1 "GND" H 3305 1177 50  0000 C CNN
+F 2 "" H 3300 1350 50  0001 C CNN
+F 3 "" H 3300 1350 50  0001 C CNN
+	1    3300 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR030
+U 1 1 6027752D
+P 3700 1250
+F 0 "#PWR030" H 3700 1000 50  0001 C CNN
+F 1 "GND" H 3705 1077 50  0000 C CNN
+F 2 "" H 3700 1250 50  0001 C CNN
+F 3 "" H 3700 1250 50  0001 C CNN
+	1    3700 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C5
+U 1 1 602775BD
+P 4150 1150
+F 0 "C5" H 4242 1196 50  0000 L CNN
+F 1 ".1uF" H 4242 1105 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P2.50mm_P5.00mm" H 4150 1150 50  0001 C CNN
+F 3 "~" H 4150 1150 50  0001 C CNN
+	1    4150 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C6
+U 1 1 6027760F
+P 4500 1150
+F 0 "C6" H 4592 1196 50  0000 L CNN
+F 1 ".1uF" H 4592 1105 50  0000 L CNN
+F 2 "Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P2.50mm_P5.00mm" H 4500 1150 50  0001 C CNN
+F 3 "~" H 4500 1150 50  0001 C CNN
+	1    4500 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3800 1050 4150 1050
+Connection ~ 3800 1050
+Wire Wire Line
+	4150 1050 4500 1050
+Connection ~ 4150 1050
+$Comp
+L power:GND #PWR032
+U 1 1 60278930
+P 4150 1250
+F 0 "#PWR032" H 4150 1000 50  0001 C CNN
+F 1 "GND" H 4155 1077 50  0000 C CNN
+F 2 "" H 4150 1250 50  0001 C CNN
+F 3 "" H 4150 1250 50  0001 C CNN
+	1    4150 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR033
+U 1 1 6027894F
+P 4500 1250
+F 0 "#PWR033" H 4500 1000 50  0001 C CNN
+F 1 "GND" H 4505 1077 50  0000 C CNN
+F 2 "" H 4500 1250 50  0001 C CNN
+F 3 "" H 4500 1250 50  0001 C CNN
+	1    4500 1250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1900 2000 2050 2000
+Connection ~ 1900 2000
+Wire Wire Line
+	2550 1050 2700 1050
+$Comp
+L power:+12V #PWR025
+U 1 1 602C7C10
+P 2550 1050
+F 0 "#PWR025" H 2550 900 50  0001 C CNN
+F 1 "+12V" H 2565 1223 50  0000 C CNN
+F 2 "" H 2550 1050 50  0001 C CNN
+F 3 "" H 2550 1050 50  0001 C CNN
+	1    2550 1050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_Array:ULN2803A U5
+U 1 1 6031B4E1
+P 9400 4150
+F 0 "U5" H 9400 4717 50  0000 C CNN
+F 1 "ULN2803A" H 9400 4626 50  0000 C CNN
+F 2 "Package_DIP:DIP-18_W7.62mm_Socket_LongPads" H 9450 3500 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/uln2803a.pdf" H 9500 3950 50  0001 C CNN
+	1    9400 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR038
+U 1 1 6031DD9C
+P 9900 3850
+F 0 "#PWR038" H 9900 3700 50  0001 C CNN
+F 1 "+12V" H 9915 4023 50  0000 C CNN
+F 2 "" H 9900 3850 50  0001 C CNN
+F 3 "" H 9900 3850 50  0001 C CNN
+	1    9900 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9800 3850 9900 3850
+$Comp
+L Connector_Generic:Conn_02x03_Odd_Even J14
+U 1 1 60320205
+P 4650 2650
+F 0 "J14" H 4700 2967 50  0000 C CNN
+F 1 "RS-485 vs XBee" H 4700 2876 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical" H 4650 2650 50  0001 C CNN
+F 3 "~" H 4650 2650 50  0001 C CNN
+	1    4650 2650
+	1    0    0    -1  
+$EndComp
+Text GLabel 3550 2800 2    50   Input ~ 0
+TxEn485
+Text GLabel 6650 3950 0    50   Input ~ 0
+TxEn485
+Wire Wire Line
+	6650 3950 7000 3950
+Text GLabel 4450 2550 0    50   Input ~ 0
+Tx485
+Text GLabel 4450 2750 0    50   Input ~ 0
+TxXBee
+Text GLabel 4950 2550 2    50   Input ~ 0
+Rx485
+Text GLabel 4950 2750 2    50   Input ~ 0
+RxXBee
+Text GLabel 1800 4100 0    50   Input ~ 0
+RxXBee
+Text GLabel 3200 2900 2    50   Input ~ 0
+Rx485
+Text GLabel 3200 2600 2    50   Input ~ 0
+Tx485
+Text GLabel 1800 4000 0    50   Input ~ 0
+TxXBee
+Text GLabel 8400 3750 2    50   Input ~ 0
+Reset
+$Comp
+L Regulator_Switching:R-783.3-0.5 U3
+U 1 1 603224C9
+P 3300 1050
+F 0 "U3" H 3300 1292 50  0000 C CNN
+F 1 "R-783.3-0.5" H 3300 1201 50  0000 C CNN
+F 2 "Converter_DCDC:Converter_DCDC_RECOM_R-78E-0.5_THT" H 3350 800 50  0001 L CIN
+F 3 "https://www.recom-power.com/pdf/Innoline/R-78xx-0.5.pdf" H 3300 1050 50  0001 C CNN
+	1    3300 1050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR031
+U 1 1 60322623
+P 3800 1050
+F 0 "#PWR031" H 3800 900 50  0001 C CNN
+F 1 "+3.3V" H 3815 1223 50  0000 C CNN
+F 2 "" H 3800 1050 50  0001 C CNN
+F 3 "" H 3800 1050 50  0001 C CNN
+	1    3800 1050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR027
+U 1 1 6032269A
+P 2800 2300
+F 0 "#PWR027" H 2800 2150 50  0001 C CNN
+F 1 "+3.3V" H 2815 2473 50  0000 C CNN
+F 2 "" H 2800 2300 50  0001 C CNN
+F 3 "" H 2800 2300 50  0001 C CNN
+	1    2800 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR021
+U 1 1 603227FB
+P 1700 3900
+F 0 "#PWR021" H 1700 3750 50  0001 C CNN
+F 1 "+3.3V" H 1700 4050 50  0000 C CNN
+F 2 "" H 1700 3900 50  0001 C CNN
+F 3 "" H 1700 3900 50  0001 C CNN
+	1    1700 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR022
+U 1 1 6032281C
+P 1700 4800
+F 0 "#PWR022" H 1700 4550 50  0001 C CNN
+F 1 "GND" H 1705 4627 50  0000 C CNN
+F 2 "" H 1700 4800 50  0001 C CNN
+F 3 "" H 1700 4800 50  0001 C CNN
+	1    1700 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR035
+U 1 1 603274FD
+P 8750 3850
+F 0 "#PWR035" H 8750 3700 50  0001 C CNN
+F 1 "+3.3V" H 8850 3900 50  0000 C CNN
+F 2 "" H 8750 3850 50  0001 C CNN
+F 3 "" H 8750 3850 50  0001 C CNN
+	1    8750 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L smitty:XBeeModule U2
+U 1 1 6032D840
+P 3100 4500
+F 0 "U2" H 3100 5515 50  0000 C CNN
+F 1 "XBeeModule" H 3100 5424 50  0000 C CNN
+F 2 "Libraries:XBeeModule" H 2900 4500 50  0001 C CNN
+F 3 "" H 2900 4500 50  0001 C CNN
+	1    3100 4500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x12 J17
+U 1 1 603325A9
+P 8300 4050
+F 0 "J17" H 8250 4750 50  0000 L CNN
+F 1 "Test Points" H 8050 4850 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" H 8300 4050 50  0001 C CNN
+F 3 "~" H 8300 4050 50  0001 C CNN
+	1    8300 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x12 J16
+U 1 1 6033261B
+P 6800 4050
+F 0 "J16" H 6800 4850 50  0000 C CNN
+F 1 "Test Points" H 6800 4950 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" H 6800 4050 50  0001 C CNN
+F 3 "~" H 6800 4050 50  0001 C CNN
+	1    6800 4050
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	7000 3550 7150 3550
+Wire Wire Line
+	7000 3650 7150 3650
+Wire Wire Line
+	7000 3750 7150 3750
+Wire Wire Line
+	7000 3850 7150 3850
+Wire Wire Line
+	7000 3950 7150 3950
+Wire Wire Line
+	7000 4050 7150 4050
+Wire Wire Line
+	7000 4150 7150 4150
+Wire Wire Line
+	7000 4250 7150 4250
+Wire Wire Line
+	7000 4350 7150 4350
+Wire Wire Line
+	7000 4450 7150 4450
+Wire Wire Line
+	7000 4550 7150 4550
+Wire Wire Line
+	7000 4650 7150 4650
+Text GLabel 4450 2650 0    50   Input ~ 0
+RxMicro
+Text GLabel 4950 2650 2    50   Input ~ 0
+TxMicro
+Text GLabel 6650 3650 0    50   Input ~ 0
+RxMicro
+Text GLabel 6650 3550 0    50   Input ~ 0
+TxMicro
+Wire Wire Line
+	6650 3550 7000 3550
+Connection ~ 7000 3550
+Wire Wire Line
+	6650 3650 7000 3650
+Connection ~ 7000 3650
+Connection ~ 7000 3950
+Wire Wire Line
+	6650 3750 7000 3750
+Connection ~ 7000 3750
+Wire Wire Line
+	6650 3850 7000 3850
+Connection ~ 7000 3850
+Wire Wire Line
+	7950 3550 8100 3550
+Wire Wire Line
+	7950 3750 8100 3750
+Wire Wire Line
+	7950 3850 8100 3850
+Wire Wire Line
+	7950 3650 8100 3650
+Wire Wire Line
+	7950 3950 8100 3950
+Wire Wire Line
+	7950 4050 8100 4050
+Wire Wire Line
+	7950 4150 8100 4150
+Wire Wire Line
+	7950 4250 8100 4250
+Wire Wire Line
+	7950 4350 8100 4350
+Wire Wire Line
+	7950 4450 8100 4450
+Wire Wire Line
+	7950 4550 8100 4550
+Wire Wire Line
+	7950 4650 8100 4650
+Connection ~ 8100 4450
+Wire Wire Line
+	8100 4450 9000 4450
+Connection ~ 8100 4550
+Wire Wire Line
+	8100 4550 9000 4550
+Connection ~ 8100 4650
+Wire Wire Line
+	8100 4650 9000 4650
+Connection ~ 8100 3650
+Wire Wire Line
+	8100 3650 8900 3650
+Connection ~ 8100 3750
+Wire Wire Line
+	8100 3750 8400 3750
+Connection ~ 8100 3850
+Wire Wire Line
+	8100 3850 8750 3850
+Connection ~ 8100 3950
+Wire Wire Line
+	8100 3950 9000 3950
+Connection ~ 8100 4050
+Wire Wire Line
+	8100 4050 9000 4050
+Connection ~ 8100 4150
+Wire Wire Line
+	8100 4150 9000 4150
+Connection ~ 8100 4250
+Wire Wire Line
+	8100 4250 9000 4250
+Connection ~ 8100 4350
+Wire Wire Line
+	8100 4350 9000 4350
+$Comp
+L Connector_Generic:Conn_01x10 J15
+U 1 1 603660C6
+P 4200 4300
+F 0 "J15" H 4150 4850 50  0000 L CNN
+F 1 "Test Points" H 4000 4950 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical" H 4200 4300 50  0001 C CNN
+F 3 "~" H 4200 4300 50  0001 C CNN
+	1    4200 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x10 J12
+U 1 1 60367938
+P 2000 4300
+F 0 "J12" H 2000 4950 50  0000 C CNN
+F 1 "Test Points" H 2000 5050 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical" H 2000 4300 50  0001 C CNN
+F 3 "~" H 2000 4300 50  0001 C CNN
+	1    2000 4300
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 3900 2300 3900
+Wire Wire Line
+	2300 4000 2200 4000
+Wire Wire Line
+	2200 4100 2300 4100
+Wire Wire Line
+	2300 4200 2200 4200
+Wire Wire Line
+	2200 4300 2300 4300
+Wire Wire Line
+	2300 4400 2200 4400
+Wire Wire Line
+	2200 4500 2300 4500
+Wire Wire Line
+	2300 4600 2200 4600
+Wire Wire Line
+	2200 4700 2300 4700
+Wire Wire Line
+	2300 4800 2200 4800
+Wire Wire Line
+	3900 3900 4000 3900
+Wire Wire Line
+	4000 4000 3900 4000
+Wire Wire Line
+	3900 4100 4000 4100
+Wire Wire Line
+	4000 4200 3900 4200
+Wire Wire Line
+	3900 4300 4000 4300
+Wire Wire Line
+	4000 4400 3900 4400
+Wire Wire Line
+	3900 4500 4000 4500
+Wire Wire Line
+	4000 4600 3900 4600
+Wire Wire Line
+	3900 4700 4000 4700
+Wire Wire Line
+	4000 4800 3900 4800
+Wire Wire Line
+	1700 3900 2200 3900
+Connection ~ 2200 3900
+Wire Wire Line
+	1800 4000 2200 4000
+Connection ~ 2200 4000
+Wire Wire Line
+	1800 4100 2200 4100
+Connection ~ 2200 4100
+Wire Wire Line
+	1700 4800 2200 4800
+Connection ~ 2200 4800
+$Comp
+L Connector_Generic:Conn_01x02 J13
+U 1 1 603A9D31
+P 2000 2800
+F 0 "J13" H 2000 3100 50  0000 C CNN
+F 1 "Test Points" H 2000 3000 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 2000 2800 50  0001 C CNN
+F 3 "~" H 2000 2800 50  0001 C CNN
+	1    2000 2800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1800 2600 2250 2600
+Wire Wire Line
+	2200 2800 2250 2800
+Wire Wire Line
+	2250 2800 2250 2900
+Connection ~ 2250 2900
+Wire Wire Line
+	2250 2900 2400 2900
+Wire Wire Line
+	2200 2700 2250 2700
+Wire Wire Line
+	2250 2700 2250 2600
+Connection ~ 2250 2600
+Wire Wire Line
+	2250 2600 2400 2600
+$EndSCHEMATC
