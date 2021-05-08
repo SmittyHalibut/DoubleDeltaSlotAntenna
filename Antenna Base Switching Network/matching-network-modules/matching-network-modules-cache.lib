@@ -1,0 +1,80 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# Connector_Generic_Conn_02x02_Top_Bottom
+#
+DEF Connector_Generic_Conn_02x02_Top_Bottom J 0 40 Y N 1 F N
+F0 "J" 50 100 50 H V C CNN
+F1 "Connector_Generic_Conn_02x02_Top_Bottom" 50 -200 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_2x??_*
+$ENDFPLIST
+DRAW
+S -50 -95 0 -105 1 1 6 N
+S -50 5 0 -5 1 1 6 N
+S -50 50 150 -150 1 1 10 f
+S 150 -95 100 -105 1 1 6 N
+S 150 5 100 -5 1 1 6 N
+X Pin_1 1 -200 0 150 R 50 50 1 1 P
+X Pin_2 2 -200 -100 150 R 50 50 1 1 P
+X Pin_3 3 300 0 150 L 50 50 1 1 P
+X Pin_4 4 300 -100 150 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device_C_Small
+#
+DEF Device_C_Small C 0 10 N N 1 F N
+F0 "C" 10 70 50 H V L CNN
+F1 "Device_C_Small" 10 -80 50 H V L CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ C_*
+$ENDFPLIST
+DRAW
+P 2 0 1 13 -60 -20 60 -20 N
+P 2 0 1 12 -60 20 60 20 N
+X ~ 1 0 100 80 D 50 50 1 1 P
+X ~ 2 0 -100 80 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device_L_Core_Ferrite
+#
+DEF Device_L_Core_Ferrite L 0 40 N N 1 F N
+F0 "L" -50 0 50 V V C CNN
+F1 "Device_L_Core_Ferrite" 110 0 50 V V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Choke_*
+ *Coil*
+ Inductor_*
+ L_*
+$ENDFPLIST
+DRAW
+A 0 -75 25 -899 899 0 1 0 N 0 -100 0 -50
+A 0 -25 25 -899 899 0 1 0 N 0 -50 0 0
+A 0 25 25 -899 899 0 1 0 N 0 0 0 50
+A 0 75 25 -899 899 0 1 0 N 0 50 0 100
+P 2 0 1 0 40 -110 40 -90 N
+P 2 0 1 0 40 -70 40 -50 N
+P 2 0 1 0 40 -30 40 -10 N
+P 2 0 1 0 40 10 40 30 N
+P 2 0 1 0 40 50 40 70 N
+P 2 0 1 0 40 90 40 110 N
+P 2 0 1 0 60 -90 60 -110 N
+P 2 0 1 0 60 -50 60 -70 N
+P 2 0 1 0 60 -10 60 -30 N
+P 2 0 1 0 60 30 60 10 N
+P 2 0 1 0 60 70 60 50 N
+P 2 0 1 0 60 110 60 90 N
+X 1 1 0 150 50 D 50 50 1 1 P
+X 2 2 0 -150 50 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+#End Library
